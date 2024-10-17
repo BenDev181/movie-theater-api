@@ -75,18 +75,12 @@ showRouter.put('/:id/available', async (req, res) => {
     res.json(show)
 });
 
-/*
 showRouter.delete("/:id", async (req, res) => {
     const id = req.params.id
-    const deletedShow = await Restaurant.destroy({where: {id: req.params.id}})
-    let restaurants = await Restaurant.findAll()
-    res.json(restaurants)
+    await Show.destroy({where: {id: id}})
+    let shows = await Show.findAll()
+    res.json(shows)
 })
-*/
-
-
-
-
 
 
 
