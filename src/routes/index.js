@@ -28,6 +28,19 @@ userRouter.get("/:id/shows", async (req, res) => {
     res.json(user)
 })
 
+userRouter.put('/:userId/shows/:showId', async (req, res) => {
+    const userId = req.params.userId;
+    const showId = req.params.showId;
+    const user = await User.findByPk(userId);
+    const show = await Show.findByPk(showId);
+    
+    // Associate the user with the show
+    await user.addShow(show);
+  
+    let foundUser = await User.findByPk(userId, {include: Show})
+    res.json(foundUser)
+  });
+
 
 
 
