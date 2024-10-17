@@ -64,6 +64,27 @@ showRouter.get("/:id/users", async (req, res) => {
     res.json(show)
 })
 
+showRouter.put('/:id/available', async (req, res) => {
+    const id = req.params.id
+    const show = await Show.findByPk(id);
+    if(show.available == false) {
+        await Show.update({available: true}, {where: {available: false}});
+    } else {
+        await Show.update({available: false}, {where: {available: true}});
+    }
+    res.json(show)
+});
+
+/*
+showRouter.delete("/:id", async (req, res) => {
+    const id = req.params.id
+    const deletedShow = await Restaurant.destroy({where: {id: req.params.id}})
+    let restaurants = await Restaurant.findAll()
+    res.json(restaurants)
+})
+*/
+
+
 
 
 
