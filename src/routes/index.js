@@ -41,6 +41,27 @@ userRouter.put('/:userId/shows/:showId', async (req, res) => {
     res.json(foundUser)
   });
 
+userRouter.post("/", [
+    check("username").not().isEmpty().trim(),
+    check("password").not().isEmpty().trim()
+    ], async (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            res.json({error: errors.array()})
+        } else {
+            await User.create(req.body)
+            let users = await User.findAll()
+            res.json(users)
+        }
+})
+
+userRouter.delete("/:id", async (req, res) => {
+    const id = req.params.id
+    await User.destroy({where: {id: id}})
+    let users = await User.findAll()
+    res.json(users)
+})
+
 
 
 
@@ -79,6 +100,22 @@ showRouter.put('/:id/available', async (req, res) => {
         await Show.update({available: false}, {where: {available: true}});
     }
     res.json(show)
+})
+
+showRouter.post("/", [
+    check("title").not().isEmpty().trim(),
+    check("genre").not().isEmpty().trim(),
+    check("rating").not().isEmpty().trim(),
+    check("available").not().isEmpty().trim()
+    ], async (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            res.json({error: errors.array()})
+        } else {
+            await Show.create(req.body)
+            let shows = await Show.findAll()
+            res.json(shows)
+        }
 })
 
 showRouter.delete("/:id", async (req, res) => {
