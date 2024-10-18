@@ -53,9 +53,15 @@ showRouter.get("/", async (req, res) => {
 })
 
 showRouter.get("/:id", async (req, res) => {
-    const id = req.params.id
-    let show = await Show.findByPk(id)
-    res.json(show)
+    const id = req.params.id;
+
+    if (!isNaN(Number(id))) {
+        let show = await Show.findByPk(id);
+        res.json(show);
+    } else {
+        let shows = await Show.findAll({where: {genre: id}});
+        res.json(shows);
+    }
 })
 
 showRouter.get("/:id/users", async (req, res) => {
@@ -73,7 +79,7 @@ showRouter.put('/:id/available', async (req, res) => {
         await Show.update({available: false}, {where: {available: true}});
     }
     res.json(show)
-});
+})
 
 showRouter.delete("/:id", async (req, res) => {
     const id = req.params.id
