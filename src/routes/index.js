@@ -43,6 +43,7 @@ userRouter.put('/:userId/shows/:showId', async (req, res) => {
 
 userRouter.post("/", [
     check("username").not().isEmpty().trim(),
+    check("username").isEmail().trim(),
     check("password").not().isEmpty().trim()
     ], async (req, res) => {
         const errors = validationResult(req)
@@ -104,6 +105,7 @@ showRouter.put('/:id/available', async (req, res) => {
 
 showRouter.post("/", [
     check("title").not().isEmpty().trim(),
+    check("title").isLength({max: 25}).trim(),
     check("genre").not().isEmpty().trim(),
     check("rating").not().isEmpty().trim(),
     check("available").not().isEmpty().trim()
